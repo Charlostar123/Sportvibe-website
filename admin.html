@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>SportVibe – Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0d0d0d;color:#f0f0f0;font-family:'DM Sans',sans-serif;padding:2rem}
+    h1{color:#f5c518;font-size:2rem;letter-spacing:2px;margin-bottom:0.3rem}
+    p{color:#888;font-size:0.85rem;margin-bottom:1.5rem}
+    a{color:#f5c518;text-decoration:none;font-size:0.85rem}
+    a:hover{text-decoration:underline}
+    .count{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;display:inline-block;padding:6px 16px;font-size:0.85rem;color:#888;margin-bottom:1.5rem}
+    .count span{color:#f5c518;font-weight:700}
+    table{width:100%;border-collapse:collapse;background:#1a1a1a;border-radius:10px;overflow:hidden;border:1px solid #2a2a2a}
+    thead{background:#141414}
+    th{padding:12px 16px;text-align:left;font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:#888;border-bottom:1px solid #2a2a2a}
+    td{padding:12px 16px;font-size:0.85rem;border-bottom:1px solid #1f1f1f;vertical-align:middle}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:#222}
+    .badge{display:inline-block;font-size:0.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:3px}
+    .sports{background:#f5c518;color:#000}
+    .food{background:#ff7849;color:#fff}
+    .recreation{background:#4ecdc4;color:#000}
+    .fitness{background:#a29bfe;color:#000}
+    .rating{color:#f5c518;font-weight:700}
+    .emoji{font-size:1.4rem}
+    .id{font-size:0.65rem;color:#555;font-family:monospace}
+    .back{display:inline-block;margin-bottom:1.5rem;background:#1a1a1a;border:1px solid #2a2a2a;padding:6px 14px;border-radius:5px;color:#f5c518;font-size:0.82rem}
+    .back:hover{border-color:#f5c518}
+    .empty{text-align:center;padding:3rem;color:#555}
+  </style>
+</head>
+<body>
+
+  <a class="back" href="/">← Back to Site</a>
+  <h1>⚡ Admin Panel</h1>
+  <p>All activities stored in MongoDB</p>
+
+  <div class="count">Total records: <span>{{ activities|length }}</span></div>
+
+  {% if activities %}
+  <table>
+    <thead>
+      <tr>
+        <th>Icon</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Location</th>
+        <th>Date</th>
+        <th>Rating</th>
+        <th>Tags</th>
+        <th>DB ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in activities %}
+      <tr>
+        <td class="emoji">{{ a.image_emoji or '🎯' }}</td>
+        <td><strong>{{ a.name }}</strong></td>
+        <td><span class="badge {{ a.category|lower }}">{{ a.category }}</span></td>
+        <td>{{ a.location }}</td>
+        <td>{{ a.date }}</td>
+        <td class="rating">⭐ {{ a.rating }}</td>
+        <td>{{ a.tags | join(', ') if a.tags else '–' }}</td>
+        <td class="id">{{ a._id }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty">No activities in the database yet.</div>
+  {% endif %}
+
+</body>
+</html>
